@@ -1,0 +1,40 @@
+name: Upload
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  upload:
+    name: Upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create a toy python script
+        run: |
+          echo "print('hello world')" > script.py
+
+      - uses: harupy/push-kaggle-kernel@master
+        env:
+          # Do not leak your credentials.
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        with:
+          # ID of kernel (must have the format: {username}/{slug})
+          id: ${{ secrets.KAGGLE_USERNAME }}/${{ github.sha }}
+          # Title of kernel (must be at least five characters)
+          title: ${{ github.sha }}
+          # Path to kernel to push (relative from the repo root)
+          code_file: ./test_notebook.ipynb
+          # Language that kernel is written in
+          language: python
+          # Type of kernel
+          kernel_type: notebook
+          # Do not share high-scoring kernels
+          # Whether or not kernel should be private.
+          is_private: false
+          # A list of competition data sources that kernel should use
+          competition_sources: |
+            Heart Attack Analysis & Prediction Dataset
