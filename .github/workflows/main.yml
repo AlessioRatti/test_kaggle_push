@@ -34,7 +34,7 @@ jobs:
           kernel_type: notebook
           # Do not share high-scoring kernels
           # Whether or not kernel should be private.
-          is_private: false
+          #is_private: false
           # A list of competition data sources that kernel should use
-          competition_sources: |
-            Heart Attack Analysis & Prediction Dataset
+          #competition_sources: |
+          #  Heart Attack Analysis & Prediction Dataset
